@@ -1,0 +1,10 @@
+resources:
+  - backend-deployment.yaml
+  - backend-service.yaml
+  - frontend-deployment.yaml
+  - frontend-service.yaml
+  - mongo-deployment.yaml
+  - mongo-service.yaml
+  - ingress.yaml
+  - configmap.yaml
+  - secret.yaml

@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # MongoDB container
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - ecom-network
+
+  # Backend container
+  backend:
+    build:
+      context: ./backend
+    container_name: backend
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/ecom
+    depends_on:
+      - mongo
+    networks:
+      - ecom-network
+
+  # Frontend container
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - ecom-network
+
+# Define network for internal communication between containers
+networks:
+  ecom-network:
+    driver: bridge
+
+# Define volume for MongoDB persistence
+volumes:
+  mongo-data:
